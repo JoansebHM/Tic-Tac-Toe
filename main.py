@@ -16,6 +16,15 @@ def checkTie():
     return True
 
 
+def playAgain():
+    for row in range(3):
+        for column in range(3):
+            boton = buttons[row][column]
+            boton.configure(state="disable")
+    playAgainButton.configure(state="normal")
+    playAgainButton.grid(row=5, column=0, columnspan=3)
+
+
 def clickEvent(row, column):
     global currentPlayer
     text = "X" if currentPlayer == "O" else "O"
@@ -28,18 +37,12 @@ def clickEvent(row, column):
     if winner:
 
         turnLabel.configure(text=f"{winner} Is the winner!")
-        for row in range(3):
-            for column in range(3):
-                boton = buttons[row][column]
-                boton.configure(state="disable")
-        playAgainButton.configure(state="normal")
-        playAgainButton.grid(row=5, column=0, columnspan=3)
-
-    elif tie:
+        playAgain()
         
-        playAgainButton.configure(state="normal")
+    elif tie:
+
         turnLabel.configure(text="There's no winner, it's a draw")
-        playAgainButton.grid(row=5, column=0, columnspan=3)
+        playAgain()
 
 currentPlayer = "X"
 
