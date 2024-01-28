@@ -25,3 +25,7 @@ Welcome to the Tic Tac Toe Game! This project is a simple implementation of the 
 - The game follows standard Tic Tac Toe rules.
 - Players take turns to place their symbols ('X' or 'O') on the board.
 - The game is won when a player has three of their symbols in a row (horizontally, vertically, or diagonally) or if the board is full without a winner, resulting in a draw.
+
+  [![Captura-de-pantalla-2024-01-28-120552.png](https://i.postimg.cc/kX8v2XFN/Captura-de-pantalla-2024-01-28-120552.png)](https://postimg.cc/dLsyXFfD)
+  [![Captura-de-pantalla-2024-01-28-120649.png](https://i.postimg.cc/TYqW8yJs/Captura-de-pantalla-2024-01-28-120649.png)](https://postimg.cc/Ln5sL87k)
+  [![Captura-de-pantalla-2024-01-28-120721.png](https://i.postimg.cc/0Nms3SpM/Captura-de-pantalla-2024-01-28-120721.png)](https://postimg.cc/hJS6QfZc)
