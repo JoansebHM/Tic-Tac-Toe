@@ -1,91 +1,93 @@
 import tkinter as tk
 
-def verificar_ganador():
-    for combinacion in combinaciones_ganadoras:
-        simbolo = botones[combinacion[0][0]][combinacion[0][1]].cget("text")
-        if simbolo and all(botones[i][j].cget("text") == simbolo for i, j in combinacion):
-            return simbolo
-
+def checkWinner():
+    for combination in winCombinations:
+        symbol = buttons[combination[0][0]][combination[0][1]].cget("text")
+        if symbol and all(buttons[i][j].cget("text") == symbol for i, j in combination):
+            return symbol
     return None
 
 
-def verificar_empate():
-    for fila in range(3):
-        for columna in range(3):
-            if not botones[fila][columna].cget("text"):
-                return False  
-            
+def checkTie():
+    for row in range(3):
+        for column in range(3):
+            if not buttons[row][column].cget("text"):
+                return False              
     return True
 
 
-def manejar_clic(fila, columna):
-    global jugador_actual
-    text = "X" if jugador_actual == "O" else "O"
-    boton = botones[fila][columna]
+def clickEvent(row, column):
+    global currentPlayer
+    text = "X" if currentPlayer == "O" else "O"
+    boton = buttons[row][column]
     boton.configure(text=text, state="disable")
-    jugador_actual = text
-    ganador = verificar_ganador()
-    empate = verificar_empate()
-    if ganador:
-        label_turno.configure(text=f"{ganador} es el ganador!")
-        for fila in range(3):
-            for columna in range(3):
-                boton = botones[fila][columna]
+    currentPlayer = text
+    winner = checkWinner()
+    tie = checkTie()
+
+    if winner:
+
+        turnLabel.configure(text=f"{winner} Is the winner!")
+        for row in range(3):
+            for column in range(3):
+                boton = buttons[row][column]
                 boton.configure(state="disable")
-        boton_play_again.configure(state="normal")
-        boton_play_again.grid(row=5, column=0, columnspan=3)
-    elif empate:
-        boton_play_again.configure(state="normal")
-        label_turno.configure(text="¡No hubo ganador! Es un empate.")
-        boton_play_again.grid(row=5, column=0, columnspan=3)
+        playAgainButton.configure(state="normal")
+        playAgainButton.grid(row=5, column=0, columnspan=3)
 
-jugador_actual = "X"
+    elif tie:
+        
+        playAgainButton.configure(state="normal")
+        turnLabel.configure(text="There's no winner, it's a draw")
+        playAgainButton.grid(row=5, column=0, columnspan=3)
 
-combinaciones_ganadoras = [
-    # Combinaciones ganadoras horizontales
+currentPlayer = "X"
+
+winCombinations = [
+    # horizontal winning combinations
     [(0, 0), (0, 1), (0, 2)],
     [(1, 0), (1, 1), (1, 2)],
     [(2, 0), (2, 1), (2, 2)],
     
-    # Combinaciones ganadoras verticales
+    # vertical winning combinations
     [(0, 0), (1, 0), (2, 0)],
     [(0, 1), (1, 1), (2, 1)],
     [(0, 2), (1, 2), (2, 2)],
     
-    # Combinaciones ganadoras diagonales
+    # diagonal winning combinations
     [(0, 0), (1, 1), (2, 2)],
     [(0, 2), (1, 1), (2, 0)]
 ]
 
-def reiniciar_juego():
+def restartGame():
     for fila in range(3):
         for columna in range(3):
-            boton = botones[fila][columna]
+            boton = buttons[fila][columna]
             boton.configure(text="", state="normal")
-            boton_play_again.configure(state="disabled")
-            label_turno.configure(text="")
+            playAgainButton.configure(state="disabled")
+            turnLabel.configure(text="")
 
-def cerrar_aplicacion():
-    ventana.destroy()
+def closeApp():
+    window.destroy()
 
-ventana = tk.Tk()
-ventana.title("TIC TAC TOE")
+window = tk.Tk()
+window.title("TIC TAC TOE")
 
-botones = []
-for fila in range(3):
-    fila_botones = []
-    for columna in range(3):
-        boton = tk.Button(ventana, text="", width=10, height=4,font=("Helvetica", 16), command=lambda f=fila, c=columna: manejar_clic(f, c))
-        boton.grid(row=fila, column=columna)
-        fila_botones.append(boton)
-    botones.append(fila_botones)
+buttons = []
+for row in range(3):
+    buttonsRow = []
+    for column in range(3):
+        boton = tk.Button(window, text="", width=10, height=4,font=("Helvetica", 16), command=lambda f=row, c=column: clickEvent(f, c))
+        boton.grid(row=row, column=column)
+        buttonsRow.append(boton)
+    buttons.append(buttonsRow)
 
-label_turno = tk.Label(ventana, text="", font=("Helvetica", 14))
-label_turno.grid(row=3, column=0, columnspan=3)
+turnLabel = tk.Label(window, text="", font=("Helvetica", 14))
+turnLabel.grid(row=3, column=0, columnspan=3)
 
-boton_salir = tk.Button(ventana, text="Exit", command=cerrar_aplicacion)
-boton_salir.grid(row=4, column=0, columnspan=3)
+exitButton = tk.Button(window, text="Exit", command=closeApp)
+exitButton.grid(row=4, column=0, columnspan=3)
 
-boton_play_again = tk.Button(ventana, text="Play Again", command=reiniciar_juego)
+playAgainButton = tk.Button(window, text="Play Again", command=restartGame)
 
-ventana.mainloop()
+window.mainloop()
